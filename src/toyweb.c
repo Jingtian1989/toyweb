@@ -16,7 +16,7 @@ static int tw_open_listen1(int port)
 	serveraddr.sin_family = AF_INET;
 	serveraddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	serveraddr.sin_port = htons((unsigned short)port);
-	if (bind(listenfd, (SA *)*serveraddr, sizeof(serveraddr)) < 0)
+	if (bind(listenfd, (SA *)&serveraddr, sizeof(serveraddr)) < 0)
 		return -1;
 
 	if (listen(listenfd, LISTENQ) < 0)
@@ -28,12 +28,12 @@ int tw_open_listen(int port)
 {
 	int rc;
 
-	if ((rc = tw_open_listen(port)) < 0)
+	if ((rc = tw_open_listen1(port)) < 0)
 		unix_error("tw_open_listen failed");
 	return rc;
 }
 
-void tw_accept(int socket, struct sockaddr *addr, int *addrlen)
+int tw_accept(int socket, struct sockaddr *addr, int *addrlen)
 {
 	int rc;
 	if ((rc = accept(socket, addr, addrlen)) < 0)
@@ -148,7 +148,7 @@ static int  tw_parse_request_uri(char *uri, char *filename, char *cgiargs)
 	{
 		strcpy(cgiargs, "");
 		strcpy(filename, ".");
-		strcat(filename, "uri");
+		strcat(filename, uri);
 		if (uri[strlen(uri)-1] == '/')
 			strcat(filename, "home.html");
 		return 1;
@@ -205,7 +205,7 @@ static void tw_serve_request_static(int fd, char *filename, int filesize)
 
 }
 
-static void tw_serve_request_dynamic(int fd, char *filename, int filesize)
+static void tw_serve_request_dynamic(int fd, char *filename, char *cgiargs)
 {
 	char buf[MAXLINE], *emptylist[] = {NULL};
 

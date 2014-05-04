@@ -2,7 +2,14 @@
 #ifndef __RIO_H__
 #define __RIO_H__
 
+#include <errno.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
 #define RIO_BUFSIZE 8192
+
 typedef struct {
 	int rio_fd;
 	int rio_cnt; 				/* unread bytes in internal buffer */

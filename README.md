@@ -1,6 +1,6 @@
 #	toyweb
 
-toyweb is a re-written toy webserver from CSAPP.
+toyweb is a re-written version of the tiny webserver from CSAPP.
 
 ##	Implementation Details
 

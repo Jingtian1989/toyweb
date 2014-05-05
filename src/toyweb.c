@@ -175,11 +175,11 @@ static void tw_get_request_file_type(char *filename, char *filetype)
 {
 	if (strstr(filename, ".html"))
 		strcpy(filetype, "text/html");
-    else if (strstr(filename, ".gif"))
+	else if (strstr(filename, ".gif"))
 		strcpy(filetype, "image/gif");
-    else if (strstr(filename, ".jpg"))
+	else if (strstr(filename, ".jpg"))
 		strcpy(filetype, "image/jpeg");
-    else
+	else
 		strcpy(filetype, "text/plain");
 }
 
